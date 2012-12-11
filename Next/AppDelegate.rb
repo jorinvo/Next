@@ -6,33 +6,38 @@
 #  Copyright 2012 jorin vogel. All rights reserved.
 #
 
-# TODO:
-# * icon for app & notifications
-# * option: open on startup
-
 
 class AppDelegate
     attr_accessor :menu
     attr_accessor :eventName
     attr_accessor :backButton
     attr_accessor :skipButton
+    attr_accessor :launchAtLoginButton
 
     def applicationDidFinishLaunching(a_notification)
-        self.initMenu
+        @appPath = NSBundle.mainBundle.bundlePath
+        @settings = NSUserDefaults.standardUserDefaults
+
         self.initCalendar
+        self.initMenu
         self.initTimer
+        self.update
+        self.launchAtLogin(nil)
     end
 
     def initMenu
         menu.setAutoenablesItems(false)
+
         bar = NSStatusBar.systemStatusBar
+
         @item = bar.statusItemWithLength(NSVariableStatusItemLength)
-        #TODO: use relative path
-        @item.setImage(NSImage.alloc.initWithContentsOfFile("/Users/jorin/Dropbox/Projects/Next/Next/en.lproj/icon-small.png"))
+        @item.setImage(NSImage.alloc.initWithContentsOfFile(@appPath + '/Contents/Resources/en.lproj/icon-small.png'))
         @item.setHighlightMode(true)
         @item.setMenu(menu)
-        backButton.setEnabled(false)
+
+        backButton.setEnabled(@eventPosition > 0)
         eventName.setEnabled(false)
+        launchAtLoginButton.setState(@settings.integerForKey('launchAtLoginState'))
     end
 
     def initCalendar
@@ -41,12 +46,12 @@ class AppDelegate
 
         NSNotificationCenter.defaultCenter.addObserver(
             self,
-            :selector => "fetchEvents:",
+            :selector => "handleChanges:",
             :name => EKEventStoreChangedNotification,
             :object => @store
         )
 
-        self.fetchEvents
+        self.initData
     end
 
     def initTimer
@@ -71,7 +76,7 @@ class AppDelegate
 
     def resetEvent
         @event = @events.first
-        @eventPosition = 0
+        self.setPosition(0)
     end
 
     def update(timer = nil)
@@ -106,12 +111,14 @@ class AppDelegate
             hours = (secs / 3600).to_i
             min = (secs.divmod(3600)[1] / 60).to_i
             min = '0' + min.to_s if min < 10
+
             "#{hours}:#{min}"
         end
     end
 
     def showNotification
         puts 'DEBUG: notify'
+
         msg = NSUserNotification.alloc.init
         msg.title = @event.title
         msg.soundName = NSUserNotificationDefaultSoundName
@@ -121,13 +128,21 @@ class AppDelegate
 
     def selectNext
         puts "DEBUG: select next event"
+
         @events.shift
         self.resetEvent
         self.update
     end
 
-    def fetchEvents(evt = nil)
+    def initData
+        self.fetchEvents
+        @eventPosition = @settings.integerForKey('eventPosition')
+        @event = @events[@eventPosition]
+    end
+
+    def fetchEvents
         puts 'DEBUG: fetch events'
+
         start = NSDateComponents.alloc.init
         start.day = 0
 
@@ -151,10 +166,27 @@ class AppDelegate
         @events = @store.eventsMatchingPredicate(predicate)
 
         self.sortEvents
-        self.resetEvent
+    end
+
+    def handleChanges(evt = nil)
+        puts 'DEBUG: handle changes'
+
+        self.fetchEvents
+
+        index = @events.index do |evt|
+            evt.eventIdentifier == @event.eventIdentifier
+        end
+        self.resetEvent if index  != @eventPosition
 
         self.update
     end
+
+    def setPosition(pos)
+        @settings.setInteger(pos, :forKey => 'eventPosition')
+        @eventPosition = pos
+    end
+
+
     #events
 
     def skip(sender)
@@ -164,9 +196,11 @@ class AppDelegate
         len = @events.length
 
         if len >= newPos
-            @eventPosition = newPos
+            self.setPosition(newPos)
             @event = @events[@eventPosition]
+
             self.update
+
             backButton.setEnabled(true)
         end
 
@@ -179,9 +213,11 @@ class AppDelegate
         newPos = @eventPosition - 1
 
         if newPos >= 0
-            @eventPosition = newPos
+            self.setPosition(newPos)
             @event = @events[@eventPosition]
+
             self.update
+
             skipButton.setEnabled(true)
         end
 
@@ -190,6 +226,61 @@ class AppDelegate
 
     def quit(sender)
         puts 'DEBUG: quit'
+
         NSApp.terminate(nil)
     end
+
+    def launchAtLogin(sender)
+        url = NSURL.fileURLWithPath(@appPath)
+        loginItems = LSSharedFileListCreate(nil, KLSSharedFileListSessionLoginItems, nil)
+
+        if launchAtLoginButton.state == 0
+            puts 'DEV: enable launch at login'
+
+            if loginItems
+                puts 'DEV: if loginItems'
+                # TODO: program crashes in this line
+
+                # inPropertiesToSet = CFDictionaryCreateMutable(nil, 1, nil, nil)
+                # t = Pointer.new('B')
+                # t.assign(1)
+                # CFDictionaryAddValue(inPropertiesToSet, Pointer.new(KLSSharedFileListLoginItemHidden), t)
+
+                item = LSSharedFileListInsertItemURL(loginItems, KLSSharedFileListItemLast, nil, nil, url, nil, nil)
+                if item
+                    puts 'DEV: if item'
+                    CFRelease(item)
+                end
+            end
+
+            CFRelease(loginItems)
+            launchAtLoginButton.setState(1)
+            @settings.setInteger(1, :forKey => 'launchAtLoginState')
+        else
+            puts 'DEV: disable launch at login'
+
+            if loginItems
+                puts 'DEV: if loginItems'
+                seedValue = Pointer.new(:uint)
+
+                loginItemsArray = LSSharedFileListCopySnapshot(loginItems, seedValue)
+                loginItemsArray.each do |itemRef|
+                    puts 'DEV: each'
+                    puts itemRef
+                    unless LSSharedFileListItemResolve(itemRef, 0, nil, nil).is_a? Exception
+                        puts 'DEV: if LSSharedFileListItemResolve'
+                        urlPath = url.path
+                        if urlPath.compare(@appPath) == NSOrderedSame
+                            puts 'DEV: if urlpath.compare'
+                            LSSharedFileListItemRemove(loginItems, itemRef)
+                        end
+                    end
+                end
+            CFRelease(loginItemsArray)
+            end
+            launchAtLoginButton.setState(0)
+            @settings.setInteger(0, :forKey => 'launchAtLoginState')
+        end
+    end
+
 end
