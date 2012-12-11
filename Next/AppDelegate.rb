@@ -22,7 +22,6 @@ class AppDelegate
         self.initMenu
         self.initTimer
         self.update
-        self.launchAtLogin(nil)
     end
 
     def initMenu
