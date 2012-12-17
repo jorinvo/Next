@@ -8,11 +8,7 @@
 
 
 class AppDelegate
-    attr_accessor :menu
-    attr_accessor :eventName
-    attr_accessor :backButton
-    attr_accessor :skipButton
-    attr_accessor :launchAtLoginButton
+    attr_accessor :menu, :eventName, :backButton, :skipButton, :launchAtLoginButton
 
     def applicationDidFinishLaunching(a_notification)
         @appPath = NSBundle.mainBundle.bundlePath

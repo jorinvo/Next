@@ -15,6 +15,7 @@
 		58335EB116676BF100AC8852 /* rb_main.rb in Resources */ = {isa = PBXBuildFile; fileRef = 58335EB016676BF100AC8852 /* rb_main.rb */; };
 		58335EB316676BF100AC8852 /* AppDelegate.rb in Resources */ = {isa = PBXBuildFile; fileRef = 58335EB216676BF100AC8852 /* AppDelegate.rb */; };
 		58335EC01668B14700AC8852 /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 58335EBE1668B14700AC8852 /* icon-small.png */; };
+		58526BB0167F49C200809D7D /* next.icns in Resources */ = {isa = PBXBuildFile; fileRef = 58526BAF167F49C200809D7D /* next.icns */; };
 		5889AA95166BEFAE00414DE4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5889AA94166BEFAE00414DE4 /* icon.png */; };
 		5889AA98166BF18400414DE4 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5889AA97166BF18400414DE4 /* icon.icns */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 		58335EB016676BF100AC8852 /* rb_main.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = rb_main.rb; sourceTree = "<group>"; };
 		58335EB216676BF100AC8852 /* AppDelegate.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = AppDelegate.rb; sourceTree = "<group>"; };
 		58335EBF1668B14700AC8852 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/icon-small.png"; sourceTree = "<group>"; };
+		58526BAF167F49C200809D7D /* next.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = next.icns; sourceTree = "<group>"; };
 		5889AA94166BEFAE00414DE4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../icon.png; sourceTree = "<group>"; };
 		5889AA97166BF18400414DE4 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,6 +63,7 @@
 		58335E8C16676BF100AC8852 = {
 			isa = PBXGroup;
 			children = (
+				58526BAF167F49C200809D7D /* next.icns */,
 				5889AA97166BF18400414DE4 /* icon.icns */,
 				58335EA216676BF100AC8852 /* Next */,
 				58335E9A16676BF100AC8852 /* Frameworks */,
@@ -201,6 +204,7 @@
 				58335EC01668B14700AC8852 /* icon-small.png in Resources */,
 				5889AA95166BEFAE00414DE4 /* icon.png in Resources */,
 				5889AA98166BF18400414DE4 /* icon.icns in Resources */,
+				58526BB0167F49C200809D7D /* next.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
