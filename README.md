@@ -10,4 +10,4 @@ It sits in your statusbar and shows you the time until your next event starts.
 
 ![Screenshot](https://raw.github.com/jorin-vogel/Next/master/screen.png)
 
-[download the app here](https://github.com/jorin-vogel/Next/raw/master/Release/Next-0.1.app.zip)
+[download the app here](https://github.com/jorin-vogel/Next/raw/master/Release/Next.dmg)

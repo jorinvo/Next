@@ -1,0 +1,99 @@
+.clear {
+    clear: both;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #000053;
+    margin: 0;
+}
+
+a {
+    color: black;
+}
+
+h2 {
+    margin: 0;
+}
+
+p {
+    margin: 5px 0;
+    line-height: 20px;
+}
+
+.container {
+    width: 600px;
+    margin: 0 auto;
+    padding: 0 50px 15px 50px;
+    background: white;
+}
+
+header img {
+    float: left;
+    margin: 25px 20px 0 0;
+}
+
+h1 {
+    display: inline;
+    font-size: 120px;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+.intro img {
+    margin-right: 20px;
+    float: left;
+}
+
+.download-wrapper {
+    margin: 0 auto;
+    width: 198px;
+}
+
+.download {
+    display: block;
+    padding: 1px 10px 0 0;
+    font-size: 20px;
+    background: white;
+    border: 1px solid black;
+}
+
+.download:hover {
+    cursor: pointer;
+}
+
+.download:hover .text {
+    text-decoration: underline;
+}
+
+.download img {
+    float: left;
+}
+
+.download .text {
+    margin-top: 20px;
+    float: left;
+}
+
+.feature img {
+    float: left;
+}
+
+.feature:nth-child(odd) img {
+    margin-right: 20px;
+}
+
+.feature:nth-child(even) img {
+    float: right;
+}
+
+.github h2 {
+    padding-top: 15px;
+}
+
+footer {
+    text-align: center;
+    font-size: 14px;
+}
