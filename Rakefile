@@ -6,7 +6,7 @@ desc 'run Next.app'
 task :run => :build do
 	#close current process if exists
 	sh 'killall Next &'
-	sh 'open Next.app'
+	sh 'open Next.app/Contents/MacOS/Next'
 end
 
 
