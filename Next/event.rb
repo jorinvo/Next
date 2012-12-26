@@ -4,6 +4,7 @@ require 'utils'
 
 
 class Event
+
     include Observable
 
     def initialize
@@ -17,6 +18,7 @@ class Event
 
     def time
         time = @current.startDate.timeIntervalSinceNow
+
         if time < 60
             nil
         else
@@ -125,18 +127,18 @@ class Event
         stop.year = 1
 
         predicate = @store.predicateForEventsWithStartDate(
-                                                           @calendar.dateByAddingComponents(
-                                                                                            start,
-                                                                                            :toDate => NSDate.date,
-                                                                                            :options => 0
-                                                                                            ),
-                                                           :endDate => @calendar.dateByAddingComponents(
-                                                                                                        stop,
-                                                                                                        :toDate => NSDate.date,
-                                                                                                        :options => 0
-                                                                                                        ),
-                                                           :calendars => nil
-                                                           )
+            @calendar.dateByAddingComponents(
+                start,
+                :toDate => NSDate.date,
+                :options => 0
+            ),
+            :endDate => @calendar.dateByAddingComponents(
+                stop,
+                :toDate => NSDate.date,
+                :options => 0
+            ),
+            :calendars => nil
+        )
 
         @all = @store.eventsMatchingPredicate(predicate)
 

@@ -3,24 +3,28 @@ require 'settings'
 
 
 class AppDelegate
-    #this are Cocoa UI elements
+
+    #Cocoa UI elements
     attr_accessor :menu, :eventName, :backButton, :skipButton, :launchAtLoginButton
 
-    # TODO: can I remove the argument?
     def applicationDidFinishLaunching(a_notification)
         @app_path = NSBundle.mainBundle.bundlePath
+
         @event = Event.new
+        @event.add_observer(self, :handle_changes)
+
         init_menu
         init_statusbar_item
+
         start_update_loop
-        @event.add_observer(self, :handleChanges)
-        handleChanges
+
+        handle_changes
     end
 
     def init_menu
         menu.setAutoenablesItems(false)
-        backButton.setEnabled(@event.previous?)
         eventName.setEnabled(false)
+        backButton.setEnabled(@event.previous?)
         launchAtLoginButton.setState(Settings.launch_at_login?)
     end
 
@@ -36,15 +40,15 @@ class AppDelegate
 
     def start_update_loop
         NSTimer.scheduledTimerWithTimeInterval(
-                                               60,
-                                               :target => self,
-                                               :selector => "update:",
-                                               :userInfo => nil,
-                                               :repeats => true
-                                               )
+            60,
+            :target => self,
+            :selector => "update:",
+            :userInfo => nil,
+            :repeats => true
+        )
     end
 
-    def handleChanges
+    def handle_changes
         update(nil, true)
     end
 
@@ -75,13 +79,11 @@ class AppDelegate
     #events
 
     def skip(sender = nil)
-
         backButton.setEnabled(true) if @event.skip
         skipButton.setEnabled(false) unless @event.next?
     end
 
     def back(sender = nil)
-
         skipButton.setEnabled(true) if @event.back
         backButton.setEnabled(false) unless @event.previous?
     end
