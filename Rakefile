@@ -1,12 +1,19 @@
 task :default => :run
 
 
+desc 'install development dependencies and tools'
+
+task :setup do
+	sh 'bundle install'
+end
+
+
 desc 'run Next.app'
 
 task :run => :build do
 	#close current process if exists
 	sh 'killall Next &'
-	sh 'open Next.app/Contents/MacOS/Next'
+	sh 'Next.app/Contents/MacOS/Next'
 end
 
 
@@ -18,7 +25,7 @@ task :archive => :build do
 		mv 'Release/Next.dmg', "Release/Next-#{version}.dmg"
 	end
 	version += 0.01
-	File.write('VERSION', version.round(2))
+	File.write 'VERSION', version.round(2)
 	mkdir_p 'Release/tmp/Next'
 	ln_s '/Applications', 'Release/tmp/Next/Applications'
 	cp_r 'Next.app', 'Release/tmp/Next'
