@@ -48,13 +48,15 @@ class Event
         len = @all.length
 
         if len >= new_pos
-            position = new_pos
+            self.position = new_pos
             set_event
 
             notify
 
+            puts 'skip: true'
             true
         else
+            puts 'skip: false'
             false
         end
     end
@@ -65,7 +67,7 @@ class Event
         new_pos = @position - 1
 
         if new_pos >= 0
-            position = new_pos
+            self.position = new_pos
             set_event
 
             notify
@@ -160,7 +162,7 @@ class Event
 
     def reset
         @current = @all.first
-        position = 0
+        self.position = 0
     end
 
     def notify
