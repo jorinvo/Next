@@ -89,6 +89,9 @@ section {
     float: right;
 }
 
+.skip h2, .autostart h2 {
+    padding-top: 35px;
+}
 .github h2 {
     padding-top: 15px;
 }
