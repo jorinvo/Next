@@ -6,6 +6,7 @@ require 'utils'
 class Event
 
     include Observable
+    include Utils
 
     def initialize
         load_calendar
