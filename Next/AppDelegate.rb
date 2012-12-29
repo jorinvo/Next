@@ -26,6 +26,8 @@ class AppDelegate
         eventName.setEnabled(false)
         backButton.setEnabled(@event.previous?)
         launchAtLoginButton.setState(Settings.launch_at_login?)
+
+        launchAtLoginButton.setHidden(true)
     end
 
     def init_statusbar_item
