@@ -96,56 +96,56 @@ class AppDelegate
 
 
     def launchAtLogin(sender)
-        #     url = NSURL.fileURLWithPath(@appPath)
-        #     loginItems = LSSharedFileListCreate(nil, KLSSharedFileListSessionLoginItems, nil)
+        url = NSURL.fileURLWithPath(@appPath)
+        loginItems = LSSharedFileListCreate(nil, KLSSharedFileListSessionLoginItems, nil)
 
-        #     if launchAtLoginButton.state == 0
-        #         puts 'DEV: enable launch at login'
+        if launchAtLoginButton.state == 0
+            puts 'DEV: enable launch at login'
 
-        #         if loginItems
-        #             puts 'DEV: if loginItems'
-        #             # TODO: program crashes in this line
+            if loginItems
+                puts 'DEV: if loginItems'
+                # TODO: program crashes in this line
 
-        #             # inPropertiesToSet = CFDictionaryCreateMutable(nil, 1, nil, nil)
-        #             # t = Pointer.new('B')
-        #             # t.assign(1)
-        #             # CFDictionaryAddValue(inPropertiesToSet, Pointer.new(KLSSharedFileListLoginItemHidden), t)
+                # inPropertiesToSet = CFDictionaryCreateMutable(nil, 1, nil, nil)
+                # t = Pointer.new('B')
+                # t.assign(1)
+                # CFDictionaryAddValue(inPropertiesToSet, Pointer.new(KLSSharedFileListLoginItemHidden), t)
 
-        #             item = LSSharedFileListInsertItemURL(loginItems, KLSSharedFileListItemLast, nil, nil, url, nil, nil)
-        #             if item
-        #                 puts 'DEV: if item'
-        #                 CFRelease(item)
-        #             end
-        #         end
+                item = LSSharedFileListInsertItemURL(loginItems, KLSSharedFileListItemLast, nil, nil, url, nil, nil)
+                if item
+                    puts 'DEV: if item'
+                    CFRelease(item)
+                end
+            end
 
-        #         CFRelease(loginItems)
-        #         launchAtLoginButton.setState(1)
-        #         @settings.setInteger(1, :forKey => 'launchAtLoginState')
-        #     else
-        #         puts 'DEV: disable launch at login'
+            CFRelease(loginItems)
+            launchAtLoginButton.setState(1)
+            Settings.launch_at_login = 1
+        else
+            puts 'DEV: disable launch at login'
 
-        #         if loginItems
-        #             puts 'DEV: if loginItems'
-        #             seedValue = Pointer.new(:uint)
+            if loginItems
+                puts 'DEV: if loginItems'
+                seedValue = Pointer.new(:uint)
 
-        #             loginItemsArray = LSSharedFileListCopySnapshot(loginItems, seedValue)
-        #             loginItemsArray.each do |itemRef|
-        #                 puts 'DEV: each'
-        #                 puts itemRef
-        #                 unless LSSharedFileListItemResolve(itemRef, 0, nil, nil).is_a? Exception
-        #                     puts 'DEV: if LSSharedFileListItemResolve'
-        #                     urlPath = url.path
-        #                     if urlPath.compare(@appPath) == NSOrderedSame
-        #                         puts 'DEV: if urlpath.compare'
-        #                         LSSharedFileListItemRemove(loginItems, itemRef)
-        #                     end
-        #                 end
-        #             end
-        #         CFRelease(loginItemsArray)
-        #         end
-        #         launchAtLoginButton.setState(0)
-        #         @settings.setInteger(0, :forKey => 'launchAtLoginState')
-        #     end
+                loginItemsArray = LSSharedFileListCopySnapshot(loginItems, seedValue)
+                loginItemsArray.each do |itemRef|
+                    puts 'DEV: each'
+                    puts itemRef
+                    unless LSSharedFileListItemResolve(itemRef, 0, nil, nil).is_a? Exception
+                        puts 'DEV: if LSSharedFileListItemResolve'
+                        urlPath = url.path
+                        if urlPath.compare(@appPath) == NSOrderedSame
+                            puts 'DEV: if urlpath.compare'
+                            LSSharedFileListItemRemove(loginItems, itemRef)
+                        end
+                    end
+                end
+            CFRelease(loginItemsArray)
+            end
+            launchAtLoginButton.setState(0)
+            Settings.launch_at_login = 0
+        end
     end
 
 end
