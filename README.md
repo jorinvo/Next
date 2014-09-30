@@ -1,7 +1,7 @@
 #Next - Remember your upcoming meetings
 
-##Attention
-Open at Login doesn't work yet
+##Attention!
+Doesn't work on OSX Yosemite yet.
 
 ------
 
@@ -11,3 +11,9 @@ It sits in your statusbar and shows you the time until your next event starts.
 ![Screenshot](http://jorin-vogel.github.com/Next/screen.png)
 
 [download the app here](http://jorin-vogel.github.com/Next/Release/Next.dmg)
+
+
+
+## License
+
+Code and documentation copyright 2014 Jorin Vogel. Code released under [the MIT license](LICENSE).
